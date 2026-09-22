@@ -1,0 +1,52 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container{
+    padding: 10px;
+    border: 2px solid black; 
+    margin: 40px; 
+    height: 700px;
+    width: 700px;
+    display: flex;
+    justify-content: center;
+    align-items:start;
+}
+
+#question{
+    color: black;
+    font-size: 20px;
+    margin: 20px;
+}
+
+#correctAnswer{
+    border: none;
+    height: 50px;
+    font-size: 20px;
+    
+}
+
+#userAnswer{
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+}
+
+button{
+    padding: 10px;
+    margin: 20px;
+}
+
+#scoreBox{
+    margin: 30px;
+    font-size: 20px;
+}

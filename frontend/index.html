@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.13.2/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        <div id="insideBox">
+        <div id="question">Questions...</div>
+        <input type="text" placeholder="answer" id="userAnswer"/>
+        <button onclick="checkAnswer()" id="checkAnswer">Check Answer</button>
+        <div id="correctAnswer"></div>
+        <button onclick="nextQuestion()">Next Question</button>
+        <div id="scoreBox">
+            <div >Your Score:</div>
+            <div id="currentScore">0</div>
+        </div>
+    </div>
+    </div>
+    <script>
+
+      let currentQuestionId = null;
+      
+
+      async function renderQuestion(){
+         const response = await axios.get("http://localhost:3000/questions");
+         const questionDiv = document.getElementById("question");
+         currentQuestionId = response.data.id;
+         questionDiv.innerHTML = "";
+         questionDiv.innerHTML = response.data.question;
+      }
+
+      renderQuestion()
+
+      async function checkAnswer(){
+        const userAnswer = document.getElementById("userAnswer");
+
+        const response = await axios.post("http://localhost:3000/answers",{
+            id:currentQuestionId,
+            answer:userAnswer.value
+        });
+        
+        const currentScore = document.getElementById("currentScore");
+        const realAns = document.getElementById("correctAnswer");
+        if(response.data.isCorrect){
+            currentScore.innerHTML = response.data.score;
+            realAns.innerHTML = "Correct";
+        }else{
+            realAns.innerHTML = `Wrong! ${response.data.correctAnswer}`
+        }
+
+        document.getElementById("checkAnswer").disabled = true;
+
+      }
+
+      function nextQuestion(){
+        document.getElementById("userAnswer").value = ""
+        document.getElementById("correctAnswer").innerHTML = ""
+        document.getElementById("checkAnswer").disabled = false;
+        renderQuestion();
+      }
+
+
+    </script>
+</body>
+</html>
